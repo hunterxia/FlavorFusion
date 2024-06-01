@@ -5,8 +5,9 @@ import "./globals.css";
 import Footer from "@components/Footer";
 
 export const metadata: Metadata = {
-  title: "Recipe Page",
-  description: "Challenge by Frontend Mentor. Coded by Haiying Liao.",
+  title: "Flavor Fusion",
+  description:
+    "A dynamic recipe suggestion app designed to help users craft meals based on the ingredients they have at home",
 };
 
 export default function RootLayout({

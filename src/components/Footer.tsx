@@ -1,27 +1,13 @@
-import Link from "next/link";
-
-const Footer = () => {
+export default function Footer() {
   return (
-    <footer className="text-center text-neutral-400">
-      Challenge by{" "}
-      <Link
-        className="font-semibold"
-        href="https://www.frontendmentor.io?ref=challenge"
-        target="_blank"
-      >
-        Frontend Mentor
-      </Link>
-      . Coded by{" "}
-      <Link
-        className="font-semibold"
-        href="https://www.linkedin.com/in/haiyingliao"
-        target="_blank"
-      >
-        Haiying Liao
-      </Link>
-      .
+    <footer className="bg-black text-white py-12 px-4 dark:bg-gray-900">
+      <div className="max-w-6xl mx-auto flex flex-wrap justify-between items-center">
+        <div className="flex flex-col">
+          <p className="text-sm">
+            &copy; copyright 2024. Made by Hunter Xia & Connie Luk
+          </p>
+        </div>
+      </div>
     </footer>
   );
-};
-
-export default Footer;
+}
