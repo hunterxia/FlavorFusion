@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { outfit } from "./fonts";
 import "./globals.css";
-import Footer from "@/app/recipe/components/Footer";
+import Footer from "@/app/components/Footer";
 
 export const metadata: Metadata = {
   title: "Flavor Fusion",

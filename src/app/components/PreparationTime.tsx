@@ -1,4 +1,4 @@
-import Dot from "@/app/recipe/components/Dot";
+import Dot from "./Dot";
 
 interface PreparationTimeProps {
   preparationTime: { name: string; time: number }[];

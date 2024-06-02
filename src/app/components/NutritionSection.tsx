@@ -1,4 +1,4 @@
-import Divider from "@/app/recipe/components/Divider";
+import Divider from "./Divider";
 
 interface NutritionItem {
   name: string;

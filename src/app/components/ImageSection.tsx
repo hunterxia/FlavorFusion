@@ -1,4 +1,3 @@
-import Image from "next/image";
 
 interface ImageSectionProps {
   src: string;
@@ -7,7 +6,7 @@ interface ImageSectionProps {
 
 const ImageSection: React.FC<ImageSectionProps> = ({ src, alt }) => (
   <section>
-    <Image
+    <img
       src={src}
       alt={alt}
       width={2000}

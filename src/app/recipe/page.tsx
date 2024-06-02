@@ -2,13 +2,13 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
-import ImageSection from "./components/ImageSection";
-import PreparationTime from "./components/PreparationTime";
-import IngredientsSection from "./components/IngredientsSection";
-import InstructionsSection from "./components/InstructionsSection";
-import NutritionSection from "./components/NutritionSection";
-import Divider from "./components/Divider";
-import StarRating from "./components/StarRating"
+import ImageSection from "../components/ImageSection";
+import PreparationTime from "../components/PreparationTime";
+import IngredientsSection from "../components/IngredientsSection";
+import InstructionsSection from "../components/InstructionsSection";
+import NutritionSection from "../components/NutritionSection";
+import Divider from "../components/Divider";
+import StarRating from "../components/StarRating"
 import { young_serif } from "../fonts";
 
 interface RecipeDetails {
@@ -85,7 +85,7 @@ const RecipePage: React.FC = () => {
       >
         {recipe.name}
       </h1>
-      <p className="mainTextStyle mb-10">Rating: {recipe.rating}</p>
+      <StarRating rate = {recipe.rating}/>
       <p className="mainTextStyle mb-10">Servings: {recipe.nb_servings}</p>
       <PreparationTime preparationTime={preparationTimes} total={recipe.total_time} />
       <IngredientsSection ingredients={recipe.ingredients} />

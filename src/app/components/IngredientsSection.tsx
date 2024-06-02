@@ -1,4 +1,4 @@
-import Dot from "@/app/recipe/components/Dot";
+import Dot from "./Dot";
 
 interface IngredientsSectionProps {
   ingredients: string[];
