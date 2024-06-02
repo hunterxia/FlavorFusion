@@ -1,18 +1,19 @@
-import React, { ChangeEvent, FormEvent } from "react";
-import { outfit, young_serif } from "../../fonts";
+import React, { ChangeEvent, FormEvent, useState } from "react";
+import { outfit, young_serif } from "../fonts";
+
 interface SearchBarProps {
   setSearchQuery: (query: string) => void;
 }
 
 export default function SearchBar({ setSearchQuery }: SearchBarProps) {
+  const [inputValue, setInputValue] = useState<string>("");
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value);
-    console.log(event.target.value);
+    setInputValue(event.target.value);
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("Form submitted");
+    setSearchQuery(inputValue);
   };
 
   return (

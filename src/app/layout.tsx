@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { outfit } from "./fonts";
 import "./globals.css";
-import Footer from "@components/Footer";
+import Footer from "@/app/recipe/components/Footer";
 
 export const metadata: Metadata = {
   title: "Flavor Fusion",
@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.className} max-w-[1440px] px-[3.5%]  mx-auto`}>
+      <body className={`${outfit.className} `}>
         <main> {children} </main>
         <Footer />
       </body>

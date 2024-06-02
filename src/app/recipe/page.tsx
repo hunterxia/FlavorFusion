@@ -1,12 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { useSearchParams } from 'next/navigation';
 import axios from "axios";
-import ImageSection from "@/components/ImageSection";
-import PreparationTime from "@/components/PreparationTime";
-import IngredientsSection from "@/components/IngredientsSection";
-import InstructionsSection from "@/components/InstructionsSection";
-import NutritionSection from "@/components/NutritionSection";
-import Divider from "@/components/Divider";
+import ImageSection from "./components/ImageSection";
+import PreparationTime from "./components/PreparationTime";
+import IngredientsSection from "./components/IngredientsSection";
+import InstructionsSection from "./components/InstructionsSection";
+import NutritionSection from "./components/NutritionSection";
+import Divider from "./components/Divider";
 import { young_serif } from "../fonts";
 
 interface Recipe {
@@ -20,42 +21,35 @@ interface Recipe {
 }
 
 const Home: React.FC = () => {
+  const searchParams = useSearchParams();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
 
   useEffect(() => {
-    const fetchRecipeData = async () => {
-      try {
-        const ingredientsResponse = await axios.get(
-          "https://<api-id>.execute-api.<region>.amazonaws.com/dev/ingredients"
-        );
-        const instructionsResponse = await axios.get(
-          "https://<api-id>.execute-api.<region>.amazonaws.com/dev/instructions"
-        );
-        const nutritionResponse = await axios.get(
-          "https://<api-id>.execute-api.<region>.amazonaws.com/dev/nutrition"
-        );
+    const nutritionalInfoParam = searchParams.get('nutritionalInfo');
 
-        setRecipe({
-          title: "Simple Omelette Recipe",
-          description:
-            "An easy and quick dish, perfect for any meal. This classic omelette combines beaten eggs cooked to perfection, optionally filled with your choice of cheese, vegetables, or meats.",
-          preparationTime: ingredientsResponse.data.preparationTime,
-          totalTime: ingredientsResponse.data.totalTime,
-          ingredients: ingredientsResponse.data.ingredients,
-          instructions: instructionsResponse.data,
-          nutrition: nutritionResponse.data,
-        });
-      } catch (error) {
-        console.error("Error fetching recipe data:", error);
-      }
-    };
+    if (nutritionalInfoParam) {
+      const nutritionalInfo = JSON.parse(decodeURIComponent(nutritionalInfoParam));
+      setRecipe({
+        title: "Sample Recipe Title",
+        description: "This is a sample recipe description.",
+        preparationTime: [
+          { name: "Prep Time", time: 10 },
+          { name: "Cook Time", time: 20 }
+        ],
+        totalTime: 30,
+        ingredients: ["1 cup flour", "2 eggs", "1/2 cup milk"],
+        instructions: ["Mix all ingredients", "Bake for 20 minutes"],
+        nutrition: [
+          { name: "Calories", content: nutritionalInfo.Calories },
+          { name: "Fat", content: nutritionalInfo.Fat },
+          { name: "Carbs", content: nutritionalInfo.Carbs },
+          { name: "Protein", content: nutritionalInfo.Protein }
+        ]
+      });
+    }
+  }, [searchParams]);
 
-    fetchRecipeData();
-  }, []);
-
-  if (!recipe) {
-    return <p>Loading...</p>;
-  }
+  if (!recipe) return <p>Loading...</p>;
 
   return (
     <div className="my-10 w-full">
@@ -80,3 +74,4 @@ const Home: React.FC = () => {
 };
 
 export default Home;
+

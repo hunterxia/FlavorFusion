@@ -1,114 +1,74 @@
-import Image from "next/image";
+"use client";
+import React, { useState, useEffect } from "react";
+import SearchBar from "./components/SearchBar";
+import RecipeCard from "./components/RecipeCard";
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
-import { young_serif } from "./fonts";
-import {
-  dummyPre,
-  dummyIngredients,
-  dummyInstuctions,
-  dummyNutrition,
-} from "@/constants";
-import { dummyTtlTime } from "@/utils/utils";
-import Divider from "@/components/Divider";
-import Dot from "@/components/Dot";
+interface Recipe {
+  name: string;
+  rate: number;
+  image: string;
+  url: string;
+}
 
-export default function Home() {
+const Home: React.FC = () => {
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const router = useRouter();
+
+  const fetchRecipes = async (ingredients: string) => {
+    try {
+      const response = await axios.post('https://htbnccah0i.execute-api.us-east-2.amazonaws.com/prod/recipe', {
+        action: 'fetchRecipesByIngredients',
+        query: ingredients
+      });
+      setRecipes(response.data);
+    } catch (error) {
+      console.error('Error fetching recipes:', error);
+    }
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query.toLowerCase());
+    fetchRecipes(query.toLowerCase());
+  };
+  const handleCardClick = async (recipeUrl: string) => {
+    try {
+      const recipeDetailsResponse = await axios.post('https://htbnccah0i.execute-api.us-east-2.amazonaws.com/prod/recipeDetails', {
+        action: 'getRecipeDetails',
+        query: recipeUrl
+      });
+
+      const nutritionalInfoResponse = await axios.post('https://htbnccah0i.execute-api.us-east-2.amazonaws.com/prod/nutritionalInfo', {
+        action: 'getNutritionalInfo',
+        query: recipeUrl
+      });
+
+      const recipeDetails = recipeDetailsResponse.data;
+      const nutritionalInfo = nutritionalInfoResponse.data;
+      console.log("nutritionalInfo:", nutritionalInfo)
+      console.log("recipe details:", recipeDetails)
+
+      router.push(`/recipe?nutritionalInfo=${encodeURIComponent(JSON.stringify(nutritionalInfo))}`);
+    } catch (error) {
+      console.error('Error fetching recipe details or nutritional information:', error);
+    }
+  };
+
   return (
-    <div className="my-10 w-full">
-      <section>
-        <Image
-          src="/fruit.jpg"
-          alt="recipe image"
-          width={1200}
-          height={1000}
-          className="w-full rounded-2xl mb-10"
-        />
-        <h1
-          className={`${young_serif.className} lg:text-7xl md:text-6xl text-4xl mb-8 text-neutral-dark_charcoal`}
-        >
-          Simple Omelette Recipe
-        </h1>
-        <p className="mainTextStyle mb-10">
-          An easy and quick dish, perfect for any meal. This classic omelette
-          combines beaten eggs cooked to perfection, optionally filled with your
-          choice of cheese, vegetables, or meats.
-        </p>
-
-        <div className="bg-neutral-rose_white rounded-2xl px-[4.5%] py-[5%] mb-10">
-          <h3 className="text-primary-dark_raspberry font-semibold md:text-4xl text-2xl mb-8">
-            Preparation time
-          </h3>
-
-          <div className="flex flex-col gap-3 pl-5 ">
-            <div className="flexCenter gap-10">
-              <Dot color="bg-primary-dark_raspberry" />
-              <p className="mainTextStyle">
-                Total: Approximately {dummyTtlTime(dummyPre)} minutes
-              </p>
-            </div>
-            {dummyPre.map((item) => (
-              <div className="flexCenter gap-10" key={item.name}>
-                <Dot color="bg-primary-dark_raspberry" />
-                <p className="mainTextStyle">
-                  {item.name}: {item.time} minutes
-                </p>
-              </div>
-            ))}
-          </div>
+    <div className="min-h-screen flex flex-col items-center">
+      <SearchBar setSearchQuery={handleSearch} />
+      <div className="mt-8 w-full max-w-7xl px-4">
+        <div className="flex flex-wrap justify-center">
+          {recipes.map((recipe, index) => (
+            <RecipeCard key={index} {...recipe} onClick={() => handleCardClick(recipe.url)} />
+          ))}
         </div>
-      </section>
-
-      <section>
-        <h2 className={`${young_serif.className} subtitle`}>Ingredients</h2>
-
-        {dummyIngredients.map((item, i) => (
-          <div className="flexCenter gap-10 mb-2" key={i}>
-            <Dot color="bg-primary-nutmeg" />
-            <p className="mainTextStyle">{item}</p>
-          </div>
-        ))}
-      </section>
-
-      <Divider />
-
-      <section>
-        <h2 className={`${young_serif.className} subtitle`}>Instructions</h2>
-
-        {dummyInstuctions.map((item, i) => (
-          <div className="flex items-start gap-10 mb-2" key={i}>
-            <p className="text-primary-nutmeg text-2xl lg:text-[33px]">
-              {i + 1}.
-            </p>
-            <p className="mainTextStyle">
-              {item.name}:{item.content}
-            </p>
-          </div>
-        ))}
-      </section>
-
-      <Divider />
-
-      <section>
-        <h2 className={`${young_serif.className} subtitle`}>Nutrition</h2>
-
-        <p className="mainTextStyle mb-10 ">
-          The table below shows nutritional values per serving without the
-          additional fillings.
-        </p>
-
-        {dummyNutrition.map((item, i) => (
-          <div className="mb-10" key={i}>
-            <div className="flexCenter">
-              <p className="lg:text-4xl text-2xl text-neutral-wenge_brown w-[50%] pl-12">
-                {item.name}
-              </p>
-              <p className="text-primary-nutmeg text-2xl lg:text-[33px] font-semibold">
-                {item.content}
-              </p>
-            </div>
-            {dummyNutrition.length - 1 !== i && <Divider />}
-          </div>
-        ))}
-      </section>
+      </div>
     </div>
   );
 }
+
+
+export default Home;

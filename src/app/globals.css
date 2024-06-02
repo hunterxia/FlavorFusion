@@ -8,7 +8,7 @@
   }
 
   .mainTextStyle {
-    @apply text-2xl lg:text-[33px] md:leading-10 text-neutral-wenge_brown;
+    @apply text-2xl lg:text-[22px] md:leading-10 text-neutral-wenge_brown;
   }
 
   .flexCenter {
