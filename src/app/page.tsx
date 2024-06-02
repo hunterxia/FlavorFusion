@@ -20,12 +20,11 @@ const Home: React.FC = () => {
   const router = useRouter();
 
   useEffect(() => {
-    // Initial fetch to load recipes (if needed)
     fetchRecipes(searchQuery);
-  }, []); // Empty dependency array to run only once on mount
+  }, []);
 
   const fetchRecipes = async (ingredients: string) => {
-    setLoading(true); // Ensure loading is set to true at the beginning
+    setLoading(true);
     try {
       const response = await axios.post(
         "https://htbnccah0i.execute-api.us-east-2.amazonaws.com/prod/recipe",
@@ -38,7 +37,7 @@ const Home: React.FC = () => {
     } catch (error) {
       console.error("Error fetching recipes:", error);
     } finally {
-      setLoading(false); // Ensure loading is set to false at the end
+      setLoading(false);
     }
   };
 
