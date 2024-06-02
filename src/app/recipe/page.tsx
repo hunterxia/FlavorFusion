@@ -78,15 +78,13 @@ const RecipePage: React.FC = () => {
   ];
 
   return (
-    <div className="my-10 w-full">
+    <div className="my-10 w-full md:w-1/2 mx-auto">
       <ImageSection src={recipe.image || "/fruit.jpg"} alt="recipe image" />
       <h1
-        className={`${young_serif.className} lg:text-7xl md:text-6xl text-4xl mb-8 text-neutral-dark_charcoal`}
+        className={`${young_serif.className} lg:text-5xl md:text-4xl text-3xl mb-8 text-neutral-dark_charcoal`}
       >
         {recipe.name}
       </h1>
-      <StarRating rate = {recipe.rating}/>
-      <p className="mainTextStyle mb-10">Servings: {recipe.nb_servings}</p>
       <PreparationTime preparationTime={preparationTimes} total={recipe.total_time} />
       <IngredientsSection ingredients={recipe.ingredients} />
       <Divider />

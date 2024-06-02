@@ -40,7 +40,7 @@ const Home: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col items-center">
       <SearchBar setSearchQuery={handleSearch} />
-      <div className="mt-8 w-full max-w-7xl px-4">
+      <div className="mt-8 w-full max-w-7xl">
         <div className="flex flex-wrap justify-center">
           {recipes.map((recipe, index) => (
             <RecipeCard key={index} {...recipe} onClick={() => handleCardClick(recipe.url)} />

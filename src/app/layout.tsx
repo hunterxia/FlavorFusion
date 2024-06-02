@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${outfit.className}`}>
-        <main className="px-[3.5%]"> {children} </main>
+        <main className="px-[1.5%]"> {children} </main>
         <Footer />
       </body>
     </html>
