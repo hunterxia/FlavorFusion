@@ -10,8 +10,8 @@ const ImageSection: React.FC<ImageSectionProps> = ({ src, alt }) => (
     <Image
       src={src}
       alt={alt}
-      width={1200}
-      height={1000}
+      width={2000}
+      height={1500}
       className="w-full rounded-2xl mb-10"
     />
   </section>

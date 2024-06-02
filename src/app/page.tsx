@@ -33,27 +33,8 @@ const Home: React.FC = () => {
     setSearchQuery(query.toLowerCase());
     fetchRecipes(query.toLowerCase());
   };
-  const handleCardClick = async (recipeUrl: string) => {
-    try {
-      const recipeDetailsResponse = await axios.post('https://htbnccah0i.execute-api.us-east-2.amazonaws.com/prod/recipeDetails', {
-        action: 'getRecipeDetails',
-        query: recipeUrl
-      });
-
-      const nutritionalInfoResponse = await axios.post('https://htbnccah0i.execute-api.us-east-2.amazonaws.com/prod/nutritionalInfo', {
-        action: 'getNutritionalInfo',
-        query: recipeUrl
-      });
-
-      const recipeDetails = recipeDetailsResponse.data;
-      const nutritionalInfo = nutritionalInfoResponse.data;
-      console.log("nutritionalInfo:", nutritionalInfo)
-      console.log("recipe details:", recipeDetails)
-
-      router.push(`/recipe?nutritionalInfo=${encodeURIComponent(JSON.stringify(nutritionalInfo))}`);
-    } catch (error) {
-      console.error('Error fetching recipe details or nutritional information:', error);
-    }
+  const handleCardClick = (recipeUrl: string) => {
+    router.push(`/recipe?recipeUrl=${encodeURIComponent(recipeUrl)}`);
   };
 
   return (
